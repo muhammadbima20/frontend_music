@@ -1,24 +1,33 @@
+import React, { Component }  from 'react';
+import { useState } from "react";
 import logo from './logo.svg';
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import Home from "./pages/Home";
+import SavedSong from "./pages/SavedSong";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import './App.css';
 
 function App() {
+  const [auth, setAuth] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login setAuth={setAuth} />} />
+        <Route path="/register" element={<Register setAuth={setAuth} />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/saved-song" element={<SavedSong />} />
+        <Route path="/" element={
+            auth ? (
+              <Home setAuth={setAuth} />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
